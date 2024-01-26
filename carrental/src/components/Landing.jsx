@@ -7,6 +7,8 @@ const Landing=()=>
     return (
         <>
         <Header/>
+        <br/>
+        <br/>
         <Search/>
         <br/>
         <br/>
