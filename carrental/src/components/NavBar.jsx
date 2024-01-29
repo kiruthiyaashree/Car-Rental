@@ -9,11 +9,11 @@ const NavBar=()=>
 
                 <div>
                     <ul className="flex">
-                        <li className="mx-2 my-10 px-3 py-2 font-semibold text-md ">Home</li>
-                        <li className="mx-2 my-10 px-3 py-2 font-semibold text-md ">Rent Car</li>
-                        <li className="mx-2 my-10 px-3 py-2 font-semibold text-md ">Business Consulting</li>
-                        <li className="mx-2 my-10 px-3 py-2 font-semibold text-md ">About Us</li>
-                        <li className="mx-2 my-10 px-3 py-2 font-semibold text-md ">Blog</li>
+                        <li className="mx-2 my-10 px-3 py-2  text-md ">Home</li>
+                        <li className="mx-2 my-10 px-3 py-2  text-md ">Rent Car</li>
+                        <li className="mx-2 my-10 px-3 py-2  text-md ">Business Consulting</li>
+                        <li className="mx-2 my-10 px-3 py-2  text-md ">About Us</li>
+                        <li className="mx-2 my-10 px-3 py-2  text-md ">Blog</li>
                     </ul>
                 </div>
 

@@ -125,7 +125,7 @@ const List=()=>
             <div className="text-center">
                 <h1 className="text-5xl font-extrabold">Latest <span className="text-blue-800">Inventory</span></h1>
                 <br/>
-                <p className="font-semibold">Experience The Future Of Automotive Innovation With Our Latest Car Models</p>
+                <p className="">Experience The Future Of Automotive Innovation With Our Latest Car Models</p>
             </div>
             <br/>
             <br/>
@@ -136,7 +136,7 @@ const List=()=>
                     {
                         car_details.map((details,i)=>
                         (
-                            <div key={i} className="border flex justify-center items-center border-gray-400 font-semibold">
+                            <div key={i} className="border rounded-lg flex justify-center items-center border-gray-400">
                             <div className='p-4 '>
                                 <img src={details.image} className='h-[15em]' alt="reloang page"/>
                                 <br/>
