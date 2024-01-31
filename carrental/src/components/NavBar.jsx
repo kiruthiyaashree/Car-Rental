@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom';
 const NavBar=()=>
 {
     return (
@@ -19,8 +20,8 @@ const NavBar=()=>
 
                 <div>
                     <ul className="flex">
-                        <a className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl">Login</li></a>
-                        <a className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl">SignUp</li></a>
+                        <Link to='/signin' className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl">Login</li></Link>
+                        <Link to='/signup' className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl">SignUp</li></Link>
                     </ul>
                 </div>
             </div>
