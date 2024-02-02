@@ -14,7 +14,6 @@ const Testimonials = () => {
         <br/>
         <br/>
         <br/>
-
         <Swiper 
       modules={[ Pagination]}
       spaceBetween={15}
@@ -28,8 +27,8 @@ const Testimonials = () => {
       pagination={{ clickable: true }}
       autoplay={{delay:2000}}
       loop={true}
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log('slide change')}
+    //   onSwiper={(swiper) => console.log(swiper)}
+    //   onSlideChange={() => console.log('slide change')}
       className="pb-16 mx-56 testimonals_swiper"
     >
       <SwiperSlide className="flex justify-center">

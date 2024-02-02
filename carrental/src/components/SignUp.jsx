@@ -8,7 +8,6 @@ const SignUp=()=>
             username:'',
             email:'',
             password:'',
-            confirmPassword:'',
         }
     )
     const handleChange=(e)=>
@@ -26,7 +25,6 @@ const SignUp=()=>
                 username: '',
                 email: '',
                 password: '',
-                confirmPassword: '',
             });
         } catch (error) {
             console.error("Error in signing up", error);
@@ -44,8 +42,6 @@ const SignUp=()=>
                     <input type="text" className="border border-black p-3 rounded-md my-3" placeholder="email"id="email" name="email" value={signup_form_data.email} onChange={handleChange}/>
                     <br/>
                     <input type="password" className="border border-black p-3 rounded-md my-3" placeholder="password" id="password" name="password" value={signup_form_data.password} onChange={handleChange}/>
-                    <br/>
-                    <input type="password" className="border border-black p-3 rounded-md my-3" placeholder="confirm Password" id="confirmPassword" name="confirmPassword" value={signup_form_data.confirmPassword} onChange={handleChange}/>
                     <br/>
                     <div className="flex justify-center my-3">
                         <button type="submit" className="px-8 py-2 border border-black rounded-xl bg-blue-800 text-white hover:border-b-2 hover:border-r-2">Signup</button>
