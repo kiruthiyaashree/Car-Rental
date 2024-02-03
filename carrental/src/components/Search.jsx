@@ -1,53 +1,60 @@
-import { useState } from "react"
-import axios from "axios"
-const Search=()=>
-{
-    const [formData,setFormData]=useState(
-        {
-            carType:'',
-            year:'',
-            seat:'',
-            price:'',
-        }
-    )
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const Search = () => {
+    const [formData, setFormData] = useState(() => {
+        // Retrieve form data from localStorage, or use default values if not present
+        const storedFormData = JSON.parse(localStorage.getItem("formData"));
+        return storedFormData || {
+            carType: "",
+            year: "",
+            seat: "",
+            price: ""
+        };
+    });
+
+    useEffect(() => {
+        // Save form data to localStorage whenever it changes
+        localStorage.setItem("formData", JSON.stringify(formData));
+    }, [formData]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-      };
-    const handleSubmit=async (e)=>
-    {
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
-            await axios.post("http://localhost:5000/search",formData);
+        try {
+            await axios.post("http://localhost:5000/search", formData);
             alert('Searching');
             setFormData({
-                carType:'',
-                year:'',
-                seat:'',
-                price:'',
+                carType: "",
+                year: "",
+                seat: "",
+                price: ""
             });
+        } catch (error) {
+            console.error("error searching form ", error);
         }
-        catch(error)
-        {
-            console.error("error searching form ",error);
-        }
-    }
+    };
+
     return (
         <>
-        <div className="flex justify-center">
+            <div className="flex justify-center">
                 <div className="border border-black rounded-xl p-14 w-[75%] flex justify-center">
-                <form className="flex" onSubmit={handleSubmit}>
+                    <form className="flex" onSubmit={handleSubmit}>
                         <label htmlFor="carType" className="mx-2 flex flex-col justify-center items-center font-bold">Type
-                            <input type="text" className=" text-center border border-gray-300 font-normal rounded-md p-1 mt-5" placeholder="SUV" onChange={handleChange} value={formData.carType}  autoComplete="off" name="carType" id="carType"/>
+                            <input type="text" className=" text-center border border-gray-300 font-normal rounded-md p-1 mt-5" placeholder="SUV" onChange={handleChange} value={formData.carType} autoComplete="off" name="carType" id="carType" />
                         </label>
                         <label htmlFor="year" className="mx-2 flex flex-col justify-center items-center font-bold">Year
-                            <input type="text" className="mx-2 text-center border border-gray-300 font-normal rounded-md p-1 mt-5" placeholder="2023" onChange={handleChange} value={formData.year} autoComplete="off" name="year"  id="year"/>
+                            <input type="text" className="mx-2 text-center border border-gray-300 font-normal rounded-md p-1 mt-5" placeholder="2023" onChange={handleChange} value={formData.year} autoComplete="off" name="year" id="year" />
                         </label>
                         <label htmlFor="seat" className="font-bold mx-2 flex flex-col justify-center items-center">Seats
-                            <input type="number" placeholder="1" className="mx-2 text-center border rounded-md p-1 mt-5 font-medium" autoComplete="off" onChange={handleChange} value={formData.seat} name="seat" id="seat"/>
+                            <input type="number" placeholder="1" className="mx-2 text-center border rounded-md p-1 mt-5 font-medium" autoComplete="off" onChange={handleChange} value={formData.seat} name="seat" id="seat" />
                         </label>
                         <label htmlFor="price" className="mx-2 flex flex-col justify-center items-center font-bold">Price ($)
-                            <input type="number" className="mx-2 text-center border border-gray-300 font-normal mt-5 rounded-md p-1" placeholder="120" autoComplete="off" onChange={handleChange} value={formData.price} name="price" id="price"/>
+                            <input type="number" className="mx-2 text-center border border-gray-300 font-normal mt-5 rounded-md p-1" placeholder="120" autoComplete="off" onChange={handleChange} value={formData.price} name="price" id="price" />
                         </label>
                         <div htmlFor="submit" className="mx-2 flex justify-center items-center">
                             <button type="submit" value="Search Car" className="mx-2 text-center text-white bg-blue-800 border border-gray-300 rounded-xl px-8 py-2 font-normal" autoComplete="off" id="submit">Search Car</button>
@@ -56,6 +63,7 @@ const Search=()=>
                 </div>
             </div>
         </>
-    )
-}
-export default Search
+    );
+};
+
+export default Search;

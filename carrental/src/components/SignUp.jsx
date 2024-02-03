@@ -1,15 +1,24 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {toast} from 'react-toastify';
 const SignUp=()=>
 {
-    const [signup_form_data,setSignupFormData]=useState(
+    const [signup_form_data,setSignupFormData]=useState(()=>
+    {
+        const signUpData=JSON.parse(localStorage.getItem("signup_form_data"));
+        return signUpData ||
         {
             username:'',
             email:'',
             password:'',
-        }
+        };
+    } 
     )
+    useEffect(()=>
+    {
+        localStorage.setItem("signUpData",JSON.stringify(signup_form_data))
+    },[signup_form_data]);
+
     const handleChange=(e)=>
     {
         const {name ,value} = e.target;
