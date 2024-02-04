@@ -1,6 +1,20 @@
+import { useEffect, useState } from 'react';
 import {Link} from 'react-router-dom';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 const NavBar=()=>
 {
+    const [isAuthenticated,setIsAuthenticated] = useState(false);
+    useEffect(()=>
+    {
+        const username=localStorage.getItem('userName');
+        // console.log(username);
+        setIsAuthenticated(!!username);
+    },[]);
+    const handleSignOut=()=>
+    {
+        localStorage.removeItem('userName');
+        setIsAuthenticated(false);  
+    }
     return (
         <>
             <div className="flex justify-around">
@@ -17,13 +31,24 @@ const NavBar=()=>
                         <li className="mx-2 my-10 px-3 py-2  text-md ">Blog</li>
                     </ul>
                 </div>
-
-                <div>
-                    <ul className="flex">
-                        <Link to='/signin' className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl">Login</li></Link>
-                        <Link to='/signup' className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl">SignUp</li></Link>
-                    </ul>
-                </div>
+                {
+                    isAuthenticated ?
+                    (
+                        <div className='flex'>
+                            <Link to='/profile' className='cursor-pointer'><p className='flex mx-2 my-10 px-3 py-2'><PersonOutlineIcon/>{localStorage.getItem('userName').replace(/"/g, '')}</p></Link>
+                            <button className='mx-2 my-10 px-3 py-2 border border-black rounded-xl hover:bg-blue-800 hover:text-white' onClick={handleSignOut}>Sign out</button>
+                        </div>
+                    ):
+                    (
+                    <div>
+                        <ul className="flex">
+                            <Link to='/signin' className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl hover:bg-blue-800 hover:text-white">Login</li></Link>
+                            <Link to='/signup' className="cursor-pointer"><li className="mx-2 my-10 px-3 py-2 border border-black rounded-xl hover:bg-blue-800 hover:text-white">SignUp</li></Link>
+                        </ul>
+                    </div>
+                    )
+                }
+                
             </div>
         </>
     )
