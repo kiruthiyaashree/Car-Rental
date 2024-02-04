@@ -22,13 +22,16 @@ const SignIn = () => {
                 toast.error(response.data.message);
             }
             else{
-                toast.success(response.data.message); 
-            }// Display success message from the server
+                toast.success(response.data.message);
+                const username=response.data.message.split(" ")[0];
+                localStorage.setItem('userName',JSON.stringify(username));
+            }
             setSigninFormData({
                 email_verify: '',
                 password_verify: '',
             });
         } catch (error) {
+                console.log(error);
                 toast.error("Error occurred during signing in!");
         }
     };
