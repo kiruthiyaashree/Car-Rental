@@ -7,6 +7,7 @@ import {BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import FilterList from './components/FilterList'
+import Profile from './components/Profile'
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
           <Route path='/signin' element={<SignIn/>}/>
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/filters' element={<FilterList/>}/>
+          <Route path='/profile' element={<Profile/>}/>
         </Routes>
       </Router>
     </>
