@@ -62,7 +62,7 @@ app.post('/signin', async (req, res) => {
     try {
         const { email_verify, password_verify } = req.body;
         const user = await signup_Details.findOne({ email: email_verify });
-         console.log(user);
+        // console.log(user);
         if (!user) {
             return res.json({message:'User not found!'});
         }
