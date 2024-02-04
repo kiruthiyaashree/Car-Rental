@@ -70,7 +70,7 @@ app.post('/signin', async (req, res) => {
         if (!passwordMatch) {
             return res.json({message:'wrong credentials'});
         }
-        res.status(200).json({ message: 'Signed in successfully!' });
+        res.status(200).json({ message: `${user.username} signed in` });
     } catch (error) {
         // console.error("Error:", error);
         res.status(500).json({ message: 'Server error' });
