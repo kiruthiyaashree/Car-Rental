@@ -138,7 +138,7 @@ const List=()=>
                         (
                             <div key={i} className="border rounded-lg flex justify-center items-center border-gray-400">
                             <div className='p-4 '>
-                                <img src={details.image} className='h-[15em]' alt="reloang page"/>
+                                <img src={details.image} className='h-[15em]' alt="reloading page"/>
                                 <br/>
 
                                 <div className='flex justify-between py-1'>

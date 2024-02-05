@@ -18,6 +18,7 @@ const SignIn = () => {
         e.preventDefault();
         try {
             const response = await axios.post("http://localhost:5000/signin", signinFormData);
+            // console.log(response.data);
             if(response.data.message=="User not found!" || response.data.message == "wrong credentials")
             {
                 toast.error(response.data.message);

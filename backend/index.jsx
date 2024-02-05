@@ -47,6 +47,10 @@ app.post('/search', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
     try {
+        const existingUserName=await signup_Details.findOne({username:req.body.username});
+        if(existingUserName){
+            return res.json({message:'Username already exists'});
+        }
         const signupData = new signup_Details({
             username: req.body.username,
             email: req.body.email,

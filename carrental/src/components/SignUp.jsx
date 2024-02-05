@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {toast} from 'react-toastify';
 const SignUp=()=>
 {
+    const navigate=useNavigate();
     const [signup_form_data,setSignupFormData]=useState(
         {
             username:'',
@@ -22,20 +24,68 @@ const SignUp=()=>
         setSignupFormData({...signup_form_data,[name]:value});
         
     }
+    const validateEmail = (text) => {
+        if (!text || typeof text !== 'string') {
+            return false;
+        }
+    
+        const index = text.indexOf('@'); 
+        if (index > 0 && index < text.length - 1) {
+            const validStringForEmail = text.slice(index);
+            return validStringForEmail.endsWith('@gmail.com'); 
+        }
+    
+        return false; 
+    };
+    
+    const validatePassword=(text)=>
+    {
+        return text.match(
+            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/
+        );
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await axios.post("http://localhost:5000/signup", signup_form_data);
-            toast.success(signup_form_data.username+" Signed up successfully!");
-            setSignupFormData({
-                username: '',
-                email: '',
-                password: '',
-                confirm_password:'',
-            });
-        } catch (error) {
-            console.error("Error in signing up", error);
-            toast.error("Error occurred during signup");
+        if(validateEmail(signup_form_data.email)){
+            if(signup_form_data.password === signup_form_data.confirm_password){
+                if(validatePassword(signup_form_data.password)){
+                    try {
+                        const response=await axios.post("http://localhost:5000/signup", signup_form_data);
+                        if(response.data.message == 'Username already exists')
+                        {
+                            toast.error(response.data.message);
+                            setSignupFormData(prevData=>(
+                                {
+                                    ...prevData,
+                                    username:'',
+                                }
+                            ));
+                        }
+                        else{
+                            toast.success(signup_form_data.username+" Signed up successfully!");
+                            setSignupFormData({
+                                username: '',
+                                email: '',
+                                password: '',
+                                confirm_password:'',
+                            });
+                            navigate("/");
+                        }
+                    } catch (error) {
+                        console.error("Error in signing up", error);
+                        toast.error("Error occurred during signup");
+                    }
+                }
+                else{
+                    toast.error('Password should contain atleast 8 - 15 characters, 1 special character, 1 digit and 1 uppercase!');
+                }
+            }
+            else{
+                toast.error('password mismatch');
+            }
+        }
+        else{
+            toast.error('Email is Invalid');
         }
     }
     const [isShowPassword,setIsShowPassword]=useState(false);
