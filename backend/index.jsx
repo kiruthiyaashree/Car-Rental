@@ -27,6 +27,7 @@ const signupSchema = new mongoose.Schema({
     username: String,
     email: String,
     password: String,
+    confirm_password:String,
 });
 
 const Form = mongoose.model('searchForm', searchSchema);
@@ -50,6 +51,8 @@ app.post('/signup', async (req, res) => {
             username: req.body.username,
             email: req.body.email,
             password: await bcrypt.hash(req.body.password, 10),
+            confirm_password: await bcrypt.hash(req.body.password, 10),
+
         });
         await signupData.save();
         res.status(201).json("signed up successfully");
