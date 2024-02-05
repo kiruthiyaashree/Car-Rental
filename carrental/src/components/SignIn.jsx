@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 const SignIn = () => {
+    const navigate=useNavigate();
     const [signinFormData, setSigninFormData] = useState({
         email_verify: '',
         password_verify: '',
@@ -25,6 +26,7 @@ const SignIn = () => {
                 toast.success(response.data.message);
                 const username=response.data.message.split(" ")[0];
                 localStorage.setItem('userName',JSON.stringify(username));
+                navigate("/");
             }
             setSigninFormData({
                 email_verify: '',
