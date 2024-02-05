@@ -1,125 +1,42 @@
 import StarIcon from '@mui/icons-material/Star';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+
 const List=()=>
 {
-    const car_details=[
+    const [carDetails, setCarDetails] = useState([]);
+    const navigate=useNavigate();
+
+
+    useEffect(() => {
+        const fetchCarDetails = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/car-details');
+                // console.log("details",response.data);
+                localStorage.setItem('defaultCarDetails',JSON.stringify(response.data));
+                setCarDetails(response.data);
+            } catch (error) {
+                console.error('Error fetching car details:', error);
+            }
+        };
+
+        fetchCarDetails();
+    }, []); 
+    const handleRenting=async(e,car)=>
+    {
+        e.preventDefault();
+        const username=localStorage.getItem('userName');
+        if(!username)
         {
-            id:1,
-            image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT35XyV4sRJ8Ieu7i82e6qKoPRh9lirsxKi8fBdM4UgaA&s",
-            car_name : "Huyndai Tucson Accent",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:2,
-            image:"https://imgd.aeplcdn.com/370x208/n/cw/ec/139177/3-series-gran-limousine-exterior-right-front-three-quarter-3.jpeg?isig=0",
-            car_name:"Huyndai Tucson Accent",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:3,
-            image:"https://media.zigcdn.com/media/model/2023/Feb/swift_360x240.jpg",
-            car_name:"Maruti Suzuki",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:4,
-            image:"https://imgd.aeplcdn.com/370x208/n/cw/ec/40432/scorpio-n-exterior-right-front-three-quarter-75.jpeg?isig=0&q=80",
-            car_name:"Huyndai Tucson Accent",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:5,
-            image:"https://www.mahindra.co.nz/wp-content/uploads/2023/03/card-SCORPIO-N-1.png",
-            car_name:"Huyndai Tucson Accent",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:6,
-            image:"https://imgd.aeplcdn.com/1056x594//n/xiuns3a_1588137.jpg?q=80",
-            car_name:"Huyndai Tucson Accent",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:7,
-            image:"https://static.autox.com/uploads/cars/2023/01/hyundai-grand-i10-nios-facelift3.jpg",
-            car_name:"Huyndai Tucson Accent",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:8,
-            image:"https://www.mbusa.com/content/dam/mb-nafta/us/myco/my23/eqe-sedan/all-vehicles/2023-EQE350-SEDAN-AVP-DR.png",
-            car_name:"Huyndai Tucson Accent",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-        {
-            id:9,
-            image:"https://imgd-ct.aeplcdn.com/664x415/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80",
-            car_name:"Renault Kwid",
-            review:"2k reviews",
-            seat:"6 Seat",
-            year:"2022",
-            fuel:"Petrol",
-            doors:2,
-            persons:5,
-            kms:"80 Km",
-            pay:"$120 /Day",
-        },
-    ]
+            navigate("/signin");
+        }
+        else{
+            // localStorage.setItem('selectedCar',JSON.stringify(car));
+            navigate("/renting");
+        }
+    }
     return (
         <>
             <div className="text-center">
@@ -134,39 +51,41 @@ const List=()=>
             <div className="flex justify-center">
                 <div className="grid grid-cols-3 gap-10 w-[75%]">
                     {
-                        car_details.map((details,i)=>
-                        (
-                            <div key={i} className="border rounded-lg flex justify-center items-center border-gray-400">
+                        carDetails.map((car,index)=>
+                        {
+                            return (
+                                <div key={index} className="border rounded-lg flex justify-center items-center border-gray-400">
                             <div className='p-4 '>
-                                <img src={details.image} className='h-[15em]' alt="reloading page"/>
+                                <img src={car.image} className='h-[15em]' alt="reloading page"/>
                                 <br/>
-
+    
                                 <div className='flex justify-between py-1'>
-                                <p>{details.car_name}</p>
-                                <p><StarIcon/>{details.review}</p>
+                                <p>{car.name}</p>
+                                <p>{car.review}</p>
                                 </div>
-
+    
                                 <div className="flex justify-between py-1">
-                                    <p>{details.seat}</p>
-                                    <p>{details.year}</p>
-                                    <p>{details.fuel}</p>
+                                    <p>{car.seat}</p>
+                                    <p>{car.year}</p>
+                                    <p>{car.fuel}</p>
                                 </div>
-
+    
                                 <div className="flex justify-between py-1">
-                                    <p>{details.doors} Door</p>
-                                    <p>{details.persons} Person</p>
-                                    <p>{details.kms}</p>
+                                    <p>{car.doors} Door</p>
+                                    <p>{car.persons} Person</p>
+                                    <p>{car.kms}</p>
                                 </div>
                                 <br/>
                                 <hr className='border border-t-2 border-gray-400 border-dotted'/>
                                 <br/>
                                 <div className='flex justify-around items-center'>
-                                    <p>{details.pay}</p>
-                                    <button className="border px-6 py-2 rounded-md border-blue-800 text-blue-800">Rent Car</button>
+                                    <p>{car.pay}</p>
+                                    <button onClick={(e)=>handleRenting(e,car)} className="border px-6 py-2 rounded-md border-blue-800 text-blue-800">Rent Car</button>
                                 </div>
                                 </div>
                             </div>
-                        ))
+                            )
+                        })
                     }
                 </div>
             </div>

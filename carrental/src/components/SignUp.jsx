@@ -15,7 +15,7 @@ const SignUp=()=>
     )
     useEffect(()=>
     {
-        localStorage.setItem("signUpData",JSON.stringify(signup_form_data))
+        localStorage.setItem("signUpData",JSON.stringify(signup_form_data));
     },[signup_form_data]);
 
     const handleChange=(e)=>
@@ -51,9 +51,10 @@ const SignUp=()=>
                 if(validatePassword(signup_form_data.password)){
                     try {
                         const response=await axios.post("http://localhost:5000/signup", signup_form_data);
+                        localStorage.setItem("signUpData",JSON.stringify(signup_form_data));
                         if(response.data.message == 'Username already exists')
                         {
-                            toast.error(response.data.message);
+                            toast.warning(response.data.message);
                             setSignupFormData(prevData=>(
                                 {
                                     ...prevData,
@@ -77,15 +78,15 @@ const SignUp=()=>
                     }
                 }
                 else{
-                    toast.error('Password should contain atleast 8 - 15 characters, 1 special character, 1 digit and 1 uppercase!');
+                    toast.warning('Password should contain atleast 8 - 15 characters, 1 special character, 1 digit and 1 uppercase!');
                 }
             }
             else{
-                toast.error('password mismatch');
+                toast.warning('password mismatch');
             }
         }
         else{
-            toast.error('Email is Invalid');
+            toast.warning('Email is Invalid');
         }
     }
     const [isShowPassword,setIsShowPassword]=useState(false);

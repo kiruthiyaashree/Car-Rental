@@ -109,6 +109,40 @@ app.get('/car-details', async (req, res) => {
     }
 });
 
+const RentingSchema=new mongoose.Schema({
+    username:String,
+    name:String,
+    seat:String,
+    year:String,
+    fuel:String,
+    doors:String,
+    persons:String,
+    kms:String,
+    pay:String,
+})
+const RentingDetails=mongoose.model("rentingschema",RentingSchema);
+app.post('/rent',async(req,res)=>
+{
+    try{
+        const rentedCar=new RentingDetails({
+            username:req.body.username,
+            name:req.body.name,
+            seat:req.body.seat,
+            year:req.body.year,
+            fuel:req.body.fuel,
+            doors:req.body.doors,
+            persons:req.body.persons,
+            kms:req.body.kms,
+            pay:req.body.pay,
+        });
+        await rentedCar.save();
+        res.status(201).json({message:'Car rented successfully'});
+    }
+    catch(error)
+    {
+        console.log('renting errors',error);
+    }
+})
 const port = 5000;
 app.listen(port, () => {
     console.log(`App running on port ${port}`);

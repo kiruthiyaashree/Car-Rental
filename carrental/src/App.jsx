@@ -8,6 +8,7 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import FilterList from './components/FilterList'
 import Profile from './components/Profile'
+import Renting from './components/Renting'
 function App() {
   return (
     <>
@@ -18,6 +19,8 @@ function App() {
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/filters' element={<FilterList/>}/>
           <Route path='/profile' element={<Profile/>}/>
+          <Route path='/renting' element={<Renting/>}/>
+
         </Routes>
       </Router>
     </>
