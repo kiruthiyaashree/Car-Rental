@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 const Search = () => {
-    const [formData, setFormData] = useState(() => {
-        // Retrieve form data from localStorage, or use default values if not present
-        const storedFormData = JSON.parse(localStorage.getItem("formData"));
-        return storedFormData || {
+    const navigate=useNavigate();
+    const [formData, setFormData] = useState({
             carType: "",
             year: "",
             seat: "",
             price: ""
-        };
-    });
+        }
+    );
 
     useEffect(() => {
         // Save form data to localStorage whenever it changes
@@ -26,8 +25,23 @@ const Search = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5000/search", formData);
-            alert('Searching');
+            const responseSearchData = await axios.post("http://localhost:5000/search",formData);
+            if (responseSearchData) {
+                localStorage.setItem('FilteredValues', JSON.stringify(responseSearchData.data));
+                // Trigger a re-render of FilterList component (if it's rendered)
+                window.dispatchEvent(new Event('storage')); // Dispatch storage event
+            }
+            else{
+                localStorage.removeItem('FilteredValues');
+            }
+            const username=localStorage.getItem('userName');
+            if(!username)
+            {
+                navigate("/signin");
+            }
+            else{
+                navigate("/filters");
+            }
             setFormData({
                 carType: "",
                 year: "",

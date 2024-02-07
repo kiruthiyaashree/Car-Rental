@@ -13,6 +13,11 @@ const NavBar=()=>
     const handleSignOut=()=>
     {
         localStorage.removeItem('userName');
+        localStorage.removeItem('signUpData');
+        localStorage.removeItem('selectedCar');
+        localStorage.removeItem('RentedCarAndUserDetails');
+        // localStorage.removeItem('userName');
+
         // localStorage.removeItem('signUpData');
         setIsAuthenticated(false);  
     }

@@ -5,19 +5,31 @@ const FilterList = () => {
     const [carDetails, setCarDetails] = useState([]);
 
     useEffect(() => {
-        const fetchCarDetails = async () => {
+        const handleStorageChange = () => {
             try {
-                const response = await axios.get('http://localhost:5000/car-details');
-                // console.log("details",response.data);
-                setCarDetails(response.data);
+                const d = JSON.parse(localStorage.getItem('defaultCarDetails'));
+                const f_values = JSON.parse(localStorage.getItem('FilteredValues'));
+                console.log(f_values);
+    
+                if (f_values && f_values.responseResults && f_values.responseResults.length > 0) {
+                    setCarDetails(f_values.responseResults);
+                } else {
+                    setCarDetails(d);
+                }
             } catch (error) {
                 console.error('Error fetching car details:', error);
             }
         };
-
-        fetchCarDetails();
-    }, []); 
-
+        
+        // Listen for storage event
+        window.addEventListener('storage', handleStorageChange);
+    
+        // Cleanup function
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []); // Empty dependencies array for mounting effect
+    
     return (
         <div>
             <br/>
