@@ -36,14 +36,15 @@ const signup_Details = mongoose.model('SignupDetails', signupSchema);
 app.post('/search', async (req, res) => {
     try {
         const { carType, year, seat, price } = req.body;
-        const formData = new Form({ carType, year, seat, price });
-        await formData.save();
-        res.status(201).json({ message: 'Searching' });
+        // console.log(carType, year, seat, price);
+        const responseResults =await CarDetails.find({year:year});
+        res.json({responseResults});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 app.post('/signup', async (req, res) => {
     try {
