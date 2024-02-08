@@ -16,13 +16,6 @@ mongoose.connect(url).then(() => {
 app.use(bodyParser.json());
 app.use(cors());
 
-const searchSchema = new mongoose.Schema({
-    cartype: String,
-    year: String,
-    seat: String,
-    price: String,
-});
-
 const signupSchema = new mongoose.Schema({
     username: String,
     email: String,
@@ -30,7 +23,6 @@ const signupSchema = new mongoose.Schema({
     confirm_password:String,
 });
 
-const Form = mongoose.model('searchForm', searchSchema);
 const signup_Details = mongoose.model('SignupDetails', signupSchema);
 
 app.post('/search', async (req, res) => {
@@ -124,10 +116,10 @@ app.get('/car-details', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
-
 const RentingSchema=new mongoose.Schema({
     username:String,
     name:String,
+    image:String,
     seat:String,
     year:String,
     fuel:String,
@@ -135,6 +127,14 @@ const RentingSchema=new mongoose.Schema({
     persons:String,
     kms:String,
     pay:String,
+    days:String,
+    daysRenting:String,
+    carsCount:String,
+    checkInDate:String,
+    checkOutDate:String,
+    checkInTime:String,
+    checkOutTime:String,
+    total:String,
 })
 const RentingDetails=mongoose.model("rentingschema",RentingSchema);
 app.post('/rent',async(req,res)=>
@@ -143,6 +143,7 @@ app.post('/rent',async(req,res)=>
         const rentedCar=new RentingDetails({
             username:req.body.username,
             name:req.body.name,
+            image:req.body.image,
             seat:req.body.seat,
             year:req.body.year,
             fuel:req.body.fuel,
@@ -150,6 +151,13 @@ app.post('/rent',async(req,res)=>
             persons:req.body.persons,
             kms:req.body.kms,
             pay:req.body.pay,
+            daysRenting:req.body.daysRenting,
+            carsCount:req.body.carsCount,
+            checkInDate:req.body.checkInDate,
+            checkOutDate:req.body.checkOutDate,
+            checkInTime:req.body.checkInTime,
+            checkOutTime:req.body.checkOutTime,
+            total:req.body.total,
         });
         await rentedCar.save();
         res.status(201).json({message:'Car rented successfully'});
@@ -159,6 +167,31 @@ app.post('/rent',async(req,res)=>
         console.log('renting errors',error);
     }
 })
+app.post("/rentedCarDetails",async(req,res)=>
+{
+    try{
+        const responseRentedCarDetails=await RentingDetails.find({username:req.body.username});
+        res.json({responseRentedCarDetails});
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+})
+app.post("/cancelingCar",async(req,res)=>
+{
+    try{
+        // console.log(req.body);
+        await RentingDetails.deleteOne({ carId: req.body.car_id });
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(500).json({message:'error on cancelation'});
+    }
+})
+
 const port = 5000;
 app.listen(port, () => {
     console.log(`App running on port ${port}`);
