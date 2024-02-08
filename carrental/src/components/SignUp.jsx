@@ -46,7 +46,6 @@ const SignUp=()=>
                 if(validatePassword(signup_form_data.password)){
                     try {
                         const response=await axios.post("http://localhost:5000/signup", signup_form_data);
-                        localStorage.setItem("signUpData",JSON.stringify(signup_form_data));
                         if(response.data.message == 'Username already exists')
                         {
                             toast.warning(response.data.message);
