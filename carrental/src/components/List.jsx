@@ -24,7 +24,7 @@ const List=()=>
 
         fetchCarDetails();
     }, []); 
-    const handleRenting=async(e,car)=>
+    const handleRenting=async(e)=>
     {
         e.preventDefault();
         const username=localStorage.getItem('userName');
@@ -65,22 +65,22 @@ const List=()=>
                                 </div>
     
                                 <div className="flex justify-between py-1">
-                                    <p>{car.seat}</p>
+                                    <p>{car.seat} seat</p>
                                     <p>{car.year}</p>
                                     <p>{car.fuel}</p>
                                 </div>
     
                                 <div className="flex justify-between py-1">
-                                    <p>{car.doors} Door</p>
-                                    <p>{car.persons} Person</p>
+                                    <p>{car.doors}</p>
+                                    <p>{car.persons}</p>
                                     <p>{car.kms}</p>
                                 </div>
                                 <br/>
                                 <hr className='border border-t-2 border-gray-400 border-dotted'/>
                                 <br/>
                                 <div className='flex justify-around items-center'>
-                                    <p>{car.pay}</p>
-                                    <button onClick={(e)=>handleRenting(e,car)} className="border px-6 py-2 rounded-md border-blue-800 text-blue-800">Rent Car</button>
+                                    <p>${car.pay} /Day</p>
+                                    <button onClick={(e)=>handleRenting(e)} className="border px-6 py-2 rounded-md border-blue-800 text-blue-800">Rent Car</button>
                                 </div>
                                 </div>
                             </div>
