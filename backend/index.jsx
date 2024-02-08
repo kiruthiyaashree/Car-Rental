@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const searchSchema = new mongoose.Schema({
-    carType: String,
+    cartype: String,
     year: String,
     seat: String,
     price: String,
@@ -35,10 +35,25 @@ const signup_Details = mongoose.model('SignupDetails', signupSchema);
 
 app.post('/search', async (req, res) => {
     try {
-        const { carType, year, seat, price } = req.body;
-        // console.log(carType, year, seat, price);
-        const responseResults =await CarDetails.find({year:year});
-        res.json({responseResults});
+        const { cartype, year, seat, pay } = req.body;
+        // console.log(cartype,year,seat,pay);
+        let query = {}; 
+        if (cartype) {
+            query.cartype = cartype;
+        }
+        if (year) {
+            query.year = year;
+        }
+        if (seat) {
+            query.seat = seat;
+        }
+        if (pay) {
+            query.pay = pay;
+        }
+
+        const responseResults = await CarDetails.find(query);
+        // console.log(responseResults);
+        res.json({ responseResults });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
