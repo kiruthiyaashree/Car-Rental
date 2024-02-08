@@ -12,12 +12,7 @@ const SignUp=()=>
             password:'',
             confirm_password:'',
         }
-    )
-    // useEffect(()=>
-    // {
-    //     localStorage.setItem("signUpData",JSON.stringify(signup_form_data));
-    // },[signup_form_data]);
-
+    )   
     const handleChange=(e)=>
     {
         const {name ,value} = e.target;
