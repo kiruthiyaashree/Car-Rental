@@ -13,10 +13,10 @@ const SignUp=()=>
             confirm_password:'',
         }
     )
-    useEffect(()=>
-    {
-        localStorage.setItem("signUpData",JSON.stringify(signup_form_data));
-    },[signup_form_data]);
+    // useEffect(()=>
+    // {
+    //     localStorage.setItem("signUpData",JSON.stringify(signup_form_data));
+    // },[signup_form_data]);
 
     const handleChange=(e)=>
     {

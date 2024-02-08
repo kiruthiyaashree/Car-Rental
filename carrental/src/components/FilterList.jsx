@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Search from '../components/Search';
+import { useNavigate } from 'react-router-dom';
 const FilterList = () => {
     const [carDetails, setCarDetails] = useState([]);
-
+    const navigate=useNavigate();
     useEffect(() => {
         const handleStorageChange = () => {
             try {
                 const d = JSON.parse(localStorage.getItem('defaultCarDetails'));
                 const f_values = JSON.parse(localStorage.getItem('FilteredValues'));
-                console.log(f_values);
+                // console.log(f_values);
     
                 if (f_values && f_values.responseResults && f_values.responseResults.length > 0) {
                     setCarDetails(f_values.responseResults);
@@ -28,8 +29,20 @@ const FilterList = () => {
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
+        // handleStorageChange();
     }, []); // Empty dependencies array for mounting effect
     
+    const handleRenting=()=>
+    {
+        const username = localStorage.getItem('userName');
+        if(username)
+        {
+            navigate("/renting");
+        }
+        else{
+            navigate("/signin");
+        }
+    }
     return (
         <div>
             <br/>
@@ -61,26 +74,27 @@ const FilterList = () => {
 
                             <div className='flex justify-between py-1'>
                             <p>{car.name}</p>
+                            <p>{car.cartype}</p>
                             <p>{car.review}</p>
                             </div>
 
                             <div className="flex justify-between py-1">
-                                <p>{car.seat}</p>
+                                <p>{car.seat} seat</p>
                                 <p>{car.year}</p>
                                 <p>{car.fuel}</p>
                             </div>
 
                             <div className="flex justify-between py-1">
-                                <p>{car.doors} Door</p>
-                                <p>{car.persons} Person</p>
-                                <p>{car.kms}</p>
+                                <p>{car.doors}</p>
+                                <p>{car.persons}</p>
+                                <p> {car.kms}</p>
                             </div>
                             <br/>
                             <hr className='border border-t-2 border-gray-400 border-dotted'/>
                             <br/>
                             <div className='flex justify-around items-center'>
-                                <p>{car.pay}</p>
-                                <button className="border px-6 py-2 rounded-md border-blue-800 text-blue-800">Rent Car</button>
+                                <p>${car.pay} /Day</p>
+                                <button className="border px-6 py-2 rounded-md border-blue-800 text-blue-800" onClick={handleRenting}>Rent Car</button>
                             </div>
                             </div>
                         </div>
