@@ -12,10 +12,10 @@ const Search = () => {
         }
     );
 
-    useEffect(() => {
-        // Save form data to localStorage whenever it changes
-        localStorage.setItem("formData", JSON.stringify(formData));
-    }, [formData]);
+    // useEffect(() => {
+    //     // Save form data to localStorage whenever it changes
+    //     localStorage.setItem("formData", JSON.stringify(formData));
+    // }, [formData]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
