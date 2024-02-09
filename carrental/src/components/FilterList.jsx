@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Search from '../components/Search';
 import { useNavigate } from 'react-router-dom';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 const FilterList = () => {
     const [carDetails, setCarDetails] = useState([]);
+    const [username,setUserName]=useState("");
     const navigate=useNavigate();
     useEffect(() => {
+        const username = localStorage.getItem('userName').replace(/"/g,'');
+        setUserName(username);
         const handleStorageChange = () => {
             try {
                 const d = JSON.parse(localStorage.getItem('defaultCarDetails'));
@@ -22,30 +27,42 @@ const FilterList = () => {
             }
         };
         
-        // Listen for storage event
         window.addEventListener('storage', handleStorageChange);
     
-        // Cleanup function
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
-        // handleStorageChange();
-    }, []); // Empty dependencies array for mounting effect
+    }, []); 
     
-    const handleRenting=()=>
+    const handleRenting=(car)=>
     {
-        const username = localStorage.getItem('userName');
         if(username)
         {
-            navigate("/renting");
+            navigate("/renting",{state : { carDetails : car}});
+            // setUserName(username);
         }
         else{
             navigate("/signin");
         }
     }
+    const handleBack=()=>
+    {
+        navigate("/");
+    }
+    const handleProfile=()=>
+    {
+        navigate("/profile");
+    }
     return (
-        <div>
+        <div >
             <br/>
+            <br/>
+            <br/>
+            <div className='mx-12 flex justify-between items-center'>
+                    <button onClick={handleBack} className='flex p-2 hover:bg-gray-400 hover:rounded-xl hover:p-2'><ArrowBackIcon/></button>
+                    <p onClick={handleProfile} className=" cursor-pointer font-bold flex items-center"><PersonOutlineIcon/>{username}</p>
+                </div>
+            <hr className='border border-black mx-12'/>
             <br/>
             <br/>
 
@@ -56,9 +73,6 @@ const FilterList = () => {
             <br/>
 
             <h2 className='text-center text-2xl font-bold'>Car Details</h2>
-            <br/>
-            <br/>
-            <br/>
         
         <div className="flex justify-center m-32">
             <ul className='grid grid-cols-3 gap-10 '>
@@ -94,7 +108,7 @@ const FilterList = () => {
                             <br/>
                             <div className='flex justify-around items-center'>
                                 <p>${car.pay} /Day</p>
-                                <button className="border px-6 py-2 rounded-md border-blue-800 text-blue-800" onClick={handleRenting}>Rent Car</button>
+                                <button className="border px-6 py-2 rounded-md border-blue-800 text-blue-800" onClick={()=>handleRenting(car)}>Rent Car</button>
                             </div>
                             </div>
                         </div>
