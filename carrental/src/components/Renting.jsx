@@ -1,10 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Renting = () => {
-    const [selectedCar, setSelectedCar] = useState({
+    const navigate=useNavigate();
+    const location = useLocation();
+    const carDetails= location.state  && location.state.carDetails ? location.state.carDetails : {};
+    // console.log(carDetails);
+    const [rentedCar,setRentedCar] = useState({
         username:'',
+        image:'',
         name: '',
         seat: '',
         year: '',
@@ -13,88 +20,112 @@ const Renting = () => {
         persons: '',
         kms: '',
         pay: '',
+        daysRenting:1,
+        carsCount:1,
+        checkInDate:'',
+        checkOutDate:'',
+        checkInTime:'',
+        checkOutTime:'',
+        total:carDetails.pay,
     });
-    const [carDetailsList, setCarDetailsList] = useState([]);
-
-    useEffect(() => {        
-
-        const carDetailsList = JSON.parse(localStorage.getItem('defaultCarDetails')) || [];
-        setCarDetailsList(carDetailsList);
-        localStorage.removeItem('RentedCarAndUserDetails');
-    }, []);
-
-    const handleCarChange = (e, property) => {
-        setSelectedCar({ ...selectedCar, [property]: e.target.value });
-    };
-
-    const handleFinalRent = async (e) => {
-        e.preventDefault();
-        try {
-            const userName = localStorage.getItem('userName').replace(/"/g,'');
-            console.log(userName);
-            const dataToSend={...selectedCar,username:userName};
-            await axios.post('http://localhost:5000/rent', dataToSend);
-            localStorage.setItem('RentedCarAndUserDetails',JSON.stringify(dataToSend));
-            toast.success('Car rented successfully');
-        } catch (err) {
-            console.error(err);
-            toast.error('Error renting car');
+    const handleChange=(e,property)=>
+    {
+            setRentedCar({...rentedCar,[property] : e.target.value});
+    }
+    const handleBack=()=>
+    {
+        navigate("/filters");
+    }
+    useEffect(()=>
+    {
+        if(Object.keys(carDetails).length === 0)
+        {
+            navigate("/filters");
         }
-    };
+        const username=localStorage.getItem('userName').replace(/"/g,'');
+        setRentedCar(prevState =>({...prevState,username:username}))
+    },[]);
+    useEffect(()=>
+    {
+        const pay = parseFloat(rentedCar.pay || carDetails.pay);
+        const daysRenting = parseInt(rentedCar.daysRenting);
+        const carsCount = parseInt(rentedCar.carsCount);
 
+        const total = pay * daysRenting * carsCount || 0;
+
+        setRentedCar(prevState => ({ ...prevState, total }));
+
+    },[rentedCar.pay, rentedCar.daysRenting, rentedCar.carsCount]);
+    const handleRentCar=async(e)=>
+    {
+        try{
+        const dataTosend={...rentedCar,
+            image:carDetails.image,
+            name:carDetails.name,
+            seat:carDetails.seat,
+            year:carDetails.year,
+            fuel:carDetails.fuel,
+            doors:carDetails.doors,
+            persons:carDetails.persons,
+            kms:carDetails.kms,
+            pay:carDetails.pay,
+        };
+        // console.log(dataTosend);
+        await axios.post('http://localhost:5000/rent',dataTosend);
+        toast.success("rented successfully");
+        navigate("/profile");
+    }
+    catch(err)
+    {
+        console.log(err);
+        toast.error("error");
+    }
+    }
     return (
-        <div>
-            <form className="min-h-[100vh] flex justify-center items-center">
-                <fieldset className="px-24 py-12 border border-black p-12 rounded-xl flex flex-col gap-5">
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'name')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.name}>{car.name}</option>
-                        ))}
-                    </select>
+        <div> 
+            <button onClick={handleBack} className='m-3 flex p-2 hover:bg-gray-400 hover:rounded-xl hover:p-2'><ArrowBackIcon/></button>
 
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'seat')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.seat}>{car.seat}</option>
-                        ))}
-                    </select>
+            <form className=" min-h-[100vh] flex justify-center items-center">
+                <fieldset className="border border-black p-12 rounded-xl ">
+                <h1 className="text-center font-bold text-xl underline">Car Details</h1>
+                <br/>
+                    <div className="flex justify-around">
+                        <img src={carDetails.image} className="w-[25%] rounded-full"/>
+                        <div className="grid grid-cols-3 gap-x-3 text-center">
+                            <p>{carDetails.name}</p>
+                            <p>{carDetails.cartype}</p>
+                            <p>{carDetails.review}</p>
+                            <p>{carDetails.seat} seat</p>
+                            <p>{carDetails.year}</p>
+                            <p>{carDetails.fuel}</p>
+                            <p>{carDetails.doors}</p>
+                            <p>{carDetails.persons}</p>
+                            <p>{carDetails.kms}</p>
+                        </div>
+                    </div>
+                    <br/>
+                    <hr className="border border-dotted border-t-1 border-black"/>
+                    <br/>
 
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'year')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.year}>{car.year}</option>
-                        ))}
-                    </select>
 
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'fuel')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.fuel}>{car.fuel}</option>
-                        ))}
-                    </select>
 
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'doors')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.doors}>{car.doors}</option>
-                        ))}
-                    </select>
+                    <div className="grid grid-cols-2 gap-5">
+                    <input required type="number" id="noOfDaysRenting" name="noOfDaysRenting" placeholder="1 Day('s) Renting" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'daysRenting')} value={rentedCar.daysRenting} />
+                    <input required type="number" id="noOfDaysCarsRenting" name="noOfCarsRenting" placeholder="1 Car('s)" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'carsCount')} value={rentedCar.carsCount} />
 
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'persons')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.persons}>{car.persons}</option>
-                        ))}
-                    </select>
 
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'kms')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.kms}>{car.kms}</option>
-                        ))}
-                    </select>
+                    <input required type="date" id="checkInDate" name="checkInDate" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkInDate')} value={rentedCar.checkInDate} />
+                    <input required type="date" id="checkOutDate" name="checkOutDate" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkOutDate')} value={rentedCar.checkOutDate} />
 
-                    <select className="border border-black px-8 py-2 rounded-xl" onChange={(e) => handleCarChange(e, 'pay')}>
-                        {carDetailsList.map((car, i) => (
-                            <option key={i} value={car.pay}>{car.pay}</option>
-                        ))}
-                    </select>
-                    <div className="text-center">
-                        <button onClick={handleFinalRent} className="w-min px-6 py-1 border border-black rounded-xl bg-blue-800 text-white hover:border-b-2 hover:border-r-2">Rent</button>
+                    <input required type="time" id="checkInTime" name="checkInTime" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkInTime')} value={rentedCar.checkInTime} />
+                    <input required type="time" id="checkOutTime" name="checkOutTime" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkOutTime')} value={rentedCar.checkOutTime} />
+
+                    </div>
+                    <br/>
+                    <div className="flex flex-col justify-center items-center">
+                        <p className="font-semibold">total : {rentedCar.total}</p>
+                        <br/>
+                    <button className="text-center border border-black rounded-xl px-12 py-2 hover:bg-blue-800 hover:text-white" onClick={handleRentCar}>Rent</button>
                     </div>
                 </fieldset>
             </form>
