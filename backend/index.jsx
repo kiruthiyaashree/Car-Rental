@@ -21,6 +21,10 @@ const signupSchema = new mongoose.Schema({
     email: String,
     password: String,
     confirm_password:String,
+    usertype:{
+        type:String,
+        default:"customer",
+    }
 });
 
 const signup_Details = mongoose.model('SignupDetails', signupSchema);
