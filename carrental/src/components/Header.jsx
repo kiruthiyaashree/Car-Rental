@@ -1,7 +1,13 @@
 import NavBar from "./NavBar"
 import Car from '../images/car.png'
+import { useNavigate } from "react-router-dom"
 const Header=()=>
 {
+    const navigate=useNavigate();
+    const handleRent=()=>
+    {
+        navigate("/filters");
+    }
     return (
         <>
             <NavBar/>
@@ -11,7 +17,7 @@ const Header=()=>
                     <p className="text-xl">We offer a wide range of rental cars to suit your needs. Whether your're planning a weekend getaway, a Business trip</p>
                     <br/>
                     <br/>
-                    <button className="px-10 py-2 rounded-xl bg-blue-800 text-white">Rent Car</button>
+                    <button onClick={handleRent} className="px-10 py-2 rounded-xl bg-blue-800 text-white">Rent Car</button>
                 </div>
                 <img src={Car}/>
             </div>
