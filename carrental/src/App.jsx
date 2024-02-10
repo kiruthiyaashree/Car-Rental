@@ -9,6 +9,9 @@ import SignUp from './components/SignUp'
 import FilterList from './components/FilterList'
 import Profile from './components/Profile'
 import Renting from './components/Renting'
+import Admin from './AdminComponents/Admin'
+import Home from './AdminComponents/Home'
+
 function App() {
   return (
     <>
@@ -20,6 +23,8 @@ function App() {
           <Route path='/filters' element={<FilterList/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/renting' element={<Renting/>}/>
+          <Route path='/adminsignin' element={<Admin/>}/>
+          <Route path='/adminhome' element={<Home/>}/>
 
         </Routes>
       </Router>
