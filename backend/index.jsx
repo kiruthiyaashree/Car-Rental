@@ -196,6 +196,30 @@ app.post("/cancelingCar",async(req,res)=>
     }
 })
 
+app.post("/add-administrator",async(req,res)=>
+{
+    try{
+        const {username,email,password,confirm_password}=req.body;
+        const existingAdmin = await signup_Details.findOne({email});
+        if(existingAdmin){
+            res.json({message:"User with this email is not authorized"});
+        }
+        const administrator = new signup_Details({
+            username,
+            email,
+            password: await bcrypt.hash(password,10),
+            confirm_password:await bcrypt.hash(confirm_password,10),
+            usertype:'admin',
+        })
+        await administrator.save();
+        res.status(200).json({message:"administrator added successfully"});
+    }
+    catch(error){
+        console.log(error);
+        res.send("wrong in signing up the administrator credentials");
+    }
+})
+
 const port = 5000;
 app.listen(port, () => {
     console.log(`App running on port ${port}`);
