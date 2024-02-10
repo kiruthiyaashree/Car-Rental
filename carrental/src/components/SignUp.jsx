@@ -92,6 +92,7 @@ const SignUp=()=>
                     <h2 className="text-2xl text-center font-bold mb-4">Signup</h2>
                     <input type="text" className="border border-black p-3 rounded-md my-3" placeholder="username" id="username" name="username" value={signup_form_data.username} onChange={handleChange}/>
                     <br/>
+                    
                     <input type="text" className="border border-black p-3 rounded-md my-3" placeholder="email"id="email" name="email" value={signup_form_data.email} onChange={handleChange}/>
                     <br/>
                     <input type={isShowPassword ? 'text' : 'password'} className="border border-black p-3 rounded-md my-3" placeholder="password" id="password" name="password" value={signup_form_data.password} onChange={handleChange}/>
