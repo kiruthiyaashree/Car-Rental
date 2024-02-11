@@ -11,6 +11,7 @@ import Profile from './components/Profile'
 import Renting from './components/Renting'
 import Admin from './AdminComponents/Admin'
 import Home from './AdminComponents/Home'
+import UserDetails from './AdminComponents/Userdetails'
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           <Route path='/renting' element={<Renting/>}/>
           <Route path='/adminsignin' element={<Admin/>}/>
           <Route path='/adminhome' element={<Home/>}/>
-
+          <Route path='/adminhome/userdetails' element={<UserDetails/>}/>
         </Routes>
       </Router>
     </>

@@ -20,12 +20,25 @@ const Admin=()=>
         e.preventDefault();
         try{
                 // console.log(signinFormData.email_verify);
-                // await axios.post("http://")
+                const response = await axios.post("http://localhost:5000/admin-signin",signinFormData);
+                if(response.data.message == 'Admin not found' || response.data.message == 'wrong credentials')
+                {
+                    toast.warning(response.data.message);
+                }
+                else{
+                    const name=response.data.message.split(" ")[0];
+                    localStorage.setItem('Adminname',JSON.stringify(name));
+                    toast.success(response.data.message);
+                    setSigninFormData({
+                        email_verify:'',
+                        password_verify:'',
+                    })
+                    navigate('/adminhome');
+                }
                 setSigninFormData({
                     email_verify:'',
-                    password_verify:'',
+                    password_verify:''
                 })
-                navigate('/adminhome');
         }
         catch(error)
         {
