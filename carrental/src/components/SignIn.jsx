@@ -9,7 +9,7 @@ const SignIn = () => {
         email_verify: '',
         password_verify: '',
     });
-    cosnt [isShowPassword,setIsShowPassword]=useState(false);
+    const [isShowPassword,setIsShowPassword]=useState(false);
     const handleChangeSignIn = (e) => {
         const { name, value } = e.target;
         setSigninFormData({ ...signinFormData, [name]: value });
