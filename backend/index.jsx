@@ -83,7 +83,7 @@ app.post('/signin', async (req, res) => {
         const user = await signup_Details.findOne({ email: email_verify });
         // console.log(user);
         if (!user) {
-            return res.json({message:'User not found!'});
+            return res.json({message:'Email not found!'});
         }
         const passwordMatch = await bcrypt.compare(password_verify, user.password);
         if (!passwordMatch) {
@@ -98,6 +98,8 @@ app.post('/signin', async (req, res) => {
 
 const CarDetailsSchema = new mongoose.Schema({
     name: String,
+    image:String,
+    cartype:String,
     review: String,
     seat: String,
     year: String,
@@ -108,7 +110,7 @@ const CarDetailsSchema = new mongoose.Schema({
     pay: String,
 });
 
-const CarDetails = mongoose.model("CarDetails", CarDetailsSchema);
+const CarDetails = mongoose.model("cardetails", CarDetailsSchema);
 
 app.get('/car-details', async (req, res) => {
     try {
@@ -120,6 +122,32 @@ app.get('/car-details', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+app.post("/add-cars",async(req,res)=>
+{
+    try{
+        // console.log(req.body);
+        const {name,image,cartype,review,seat,year,fuel,doors,persons,kms,pay} = req.body;
+        const addNewCar=new CarDetails({
+            name:name,
+            image:image,
+            cartype:cartype,
+            review:review,
+            seat:seat,
+            year:year,
+            fuel:fuel,
+            doors:doors,
+            persons:persons,
+            kms:kms,
+            pay:pay,
+        })
+        await addNewCar.save();
+        res.json({message:'added successfully'});
+    }
+    catch(error){
+        res.status(500).json({message:'server error'});
+    }
+})
 const RentingSchema=new mongoose.Schema({
     username:String,
     name:String,
@@ -195,31 +223,52 @@ app.post("/cancelingCar",async(req,res)=>
         res.status(500).json({message:'error on cancelation'});
     }
 })
-
-app.post("/add-administrator",async(req,res)=>
+// admin functions begins
+const adminDBUrl = process.env.administration_mongodb_url;
+const adminDBConnection = mongoose.createConnection(adminDBUrl);
+const adminSchema = new mongoose.Schema({
+    username: String,
+    email: String,
+    password: String,
+    usertype: {
+        type: String,
+        default: "admin",
+    }
+});
+const AdminModel = adminDBConnection.model('Admin', adminSchema);
+app.post("/admin-signin",async(req,res)=>
 {
     try{
-        const {username,email,password,confirm_password}=req.body;
-        const existingAdmin = await signup_Details.findOne({email});
-        if(existingAdmin){
-            res.json({message:"User with this email is not authorized"});
+        const {email_verify,password_verify} = req.body;
+        // console.log(email_verify,password_verify);
+        const admin=await AdminModel.findOne({email:email_verify});
+        if(!admin)
+        {
+            return res.json({message:'Admin not found'});
         }
-        const administrator = new signup_Details({
-            username,
-            email,
-            password: await bcrypt.hash(password,10),
-            confirm_password:await bcrypt.hash(confirm_password,10),
-            usertype:'admin',
-        })
-        await administrator.save();
-        res.status(200).json({message:"administrator added successfully"});
+        const passwordMatch=await bcrypt.compare(password_verify,admin.password);
+        if(!passwordMatch)
+        {
+            return res.json({message:'wrong credentials'});
+        }
+        res.status(200).json({message:`${admin.username} signed in`});
     }
     catch(error){
         console.log(error);
-        res.send("wrong in signing up the administrator credentials");
+        res.status(500).json({message:'Server error'});
     }
 })
-
+app.post("/delete-car",async(req,res)=>
+{
+    try{
+        const updatedDetails = await CarDetails.deleteOne({ carId: req.body.car_id }); 
+        res.json({updatedDetails});
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message:'Server Error'});
+    }
+})
 const port = 5000;
 app.listen(port, () => {
     console.log(`App running on port ${port}`);
