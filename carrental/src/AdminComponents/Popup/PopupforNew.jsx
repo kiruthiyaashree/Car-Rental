@@ -3,6 +3,7 @@ import './Popup.css';
 import AddIcon from "@mui/icons-material/Add";
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PopupForNew=({closePop})=>
 {
@@ -19,7 +20,7 @@ const PopupForNew=({closePop})=>
         kms:'',
         pay:'',
     })
-    
+    const navigate=useNavigate();
     const handleChange=(e)=>
     {
         const {name,value} = e.target;
@@ -30,7 +31,8 @@ const PopupForNew=({closePop})=>
     {
         try{
             const response = await axios.post("http://localhost:5000/add-cars",AddNewCar);
-            console.log(response.data);
+            // console.log(response.data);
+            navigate('/adminhome');
         }
         catch(error){
             console.log(error);
