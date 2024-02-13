@@ -56,9 +56,9 @@ const Profile =()=>
                 {/* rented car details */}
             <hr className='border border-black'/>
                 <br/>
-                <div className='grid grid-cols-3'>
+                <div className='grid grid-cols-3 gap-x-10'>
                     {Array.isArray(rentedCarInfos.responseRentedCarDetails) && rentedCarInfos.responseRentedCarDetails.map((car, index) => (
-                            <div key={index} className="border rounded-lg flex justify-center items-center border-gray-400 w-fit">
+                            <div key={index} className="border rounded-lg flex justify-center items-center border-gray-400">
                         <div className='p-4 '>
                             <div className='flex justify-center'>
                             <img src={car.image} className='w-[50%] ' alt="reloading page"/>
