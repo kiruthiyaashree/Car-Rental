@@ -44,7 +44,7 @@ const CarList = () => {
         try{
           // console.log(car._id);
             const response = await axios.post("http://localhost:5000/delete-car",car);
-            localStorage.setItem('defaultCarDetails',JSON.stringify(response.data));
+            // localStorage.setItem('defaultCarDetails',JSON.stringify(response.data));
             toast.success("Deleted succcessfully");
             navigate('/adminhome');
         }
