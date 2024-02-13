@@ -123,7 +123,7 @@ const Renting = () => {
                     </div>
                     <br/>
                     <div className="flex flex-col justify-center items-center">
-                        <p className="font-semibold">total : {rentedCar.total}</p>
+                        <p className="font-semibold">total : ${rentedCar.total}</p>
                         <br/>
                     <button className="text-center border border-black rounded-xl px-12 py-2 hover:bg-blue-800 hover:text-white" onClick={handleRentCar}>Rent</button>
                     </div>

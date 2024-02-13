@@ -28,6 +28,11 @@ const SignIn = () => {
                 toast.success(response.data.message);
                 const username=response.data.message.split(" ")[0];
                 localStorage.setItem('userName',JSON.stringify(username));
+                const value=localStorage.getItem('Adminname');
+                if(value)
+                {
+                    localStorage.removeItem('Adminname');
+                }
                 navigate("/");
             }
             setSigninFormData({
