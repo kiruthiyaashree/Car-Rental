@@ -32,7 +32,7 @@ const adminSchema = new mongoose.Schema({
 const AdminModel = adminDBConnection.model('Admin', adminSchema);
 
 // Hash the password using bcrypt
-const p = "*";
+const p = "";
 bcrypt.hash(p, 10, (err, hashedPassword) => {
     if (err) {
         console.error('Error hashing password:', err);
