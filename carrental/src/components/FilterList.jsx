@@ -14,7 +14,7 @@ const FilterList = () => {
         const handleStorageChange = async() => {
             try {
                 const car_details = await axios.get("http://localhost:5000/car-details");
-                console.log(car_details.data);
+                // console.log(car_details.data);
                 const d =car_details.data;
                 const f_values = JSON.parse(localStorage.getItem('FilteredValues'));
                 // console.log(f_values);
