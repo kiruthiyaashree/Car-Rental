@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./Popup.css";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export const Popup = ({ closePopup, car }) => {
   const [formData, setFormData] = useState({
+    id:car._id,
     name:car.name,
     image:car.image,
     seat:car.seat,
@@ -22,9 +25,17 @@ export const Popup = ({ closePopup, car }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // sends details to the index.jsx file to be updated
+    try{
+      await axios.post("http://localhost:5000/update-car",formData);
+      toast.success("Updated successfully");
+    }
+    catch(error){
+      toast.error("error on updating the car");
+      console.log(error);
+    }
     closePopup();
   };
 
@@ -139,7 +150,7 @@ export const Popup = ({ closePopup, car }) => {
           <br/>
 
           <div className="flex justify-center">
-          <button type="submit" className="px-8 py-2 border border-black rounded-xl bg-blue-800 text-white hover:border-b-2 hover:border-r-2">Submit</button>
+          <button type="submit" className="px-8 py-2 border border-black rounded-xl bg-blue-800 text-white hover:border-b-2 hover:border-r-2">Update</button>
           </div>
         </form>
       </div>
