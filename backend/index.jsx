@@ -258,15 +258,35 @@ app.post("/admin-signin",async(req,res)=>
         res.status(500).json({message:'Server error'});
     }
 })
-app.post("/delete-car",async(req,res)=>
+const { ObjectId } = require('mongodb');
+
+app.post("/delete-car", async (req, res) => {
+    try {
+        const carId = req.body._id;
+        const updatedDetails = await CarDetails.deleteOne({ _id:new ObjectId(carId) }); 
+        res.json({ updatedDetails });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Server Error' });
+    } 
+});
+
+app.post("/update-car",async(req,res)=>
 {
     try{
-        const updatedDetails = await CarDetails.deleteOne({ carId: req.body.car_id }); 
-        res.json({updatedDetails});
+        // console.log(req.body);
+        const {name,image,cartype,review,seat,year,fuel,doors,persons,kms,pay} = req.body;
+        const carId = req.body.id;
+        console.log(carId);
+        const updatedCar = await CarDetails.findByIdAndUpdate(carId, {name,image,cartype,review,seat,year,fuel,doors,persons,kms,pay }, { new: true });
+        if (!updatedCar) {
+            return res.json({ message: 'Car not found' });
+        }
+        res.json({message:'updated successfully!'})
     }
     catch(error){
         console.log(error);
-        res.status(500).json({message:'Server Error'});
+        res.status(500).json({message:'Server error'});
     }
 })
 const port = 5000;
