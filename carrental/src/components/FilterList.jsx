@@ -11,9 +11,11 @@ const FilterList = () => {
     useEffect(() => {
         const username = localStorage.getItem('userName').replace(/"/g,'');
         setUserName(username);
-        const handleStorageChange = () => {
+        const handleStorageChange = async() => {
             try {
-                const d = JSON.parse(localStorage.getItem('defaultCarDetails'));
+                const car_details = await axios.get("http://localhost:5000/car-details");
+                console.log(car_details.data);
+                const d =car_details.data;
                 const f_values = JSON.parse(localStorage.getItem('FilteredValues'));
                 // console.log(f_values);
     
