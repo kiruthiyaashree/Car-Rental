@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,6 +13,7 @@ const CarList = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isPopupOpenForAdd, setIsPopupOpenforAdd] = useState(false);
   const [selectedCar,setSelectedCar] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     const handleFetchCarDetails = async () => {
       const response = await axios.get("http://localhost:5000/car-details");
@@ -20,8 +22,9 @@ const CarList = () => {
     handleFetchCarDetails();
   }, []);
 
-  const handleUpdate = (car) => {
+  const handleUpdate = (e,car) => {
     // console.log("clicked");
+    e.preventDefault();
     setSelectedCar(car);
     setIsPopupOpen(true); 
   };
@@ -35,13 +38,15 @@ const CarList = () => {
   {
     setIsPopupOpenforAdd(true);
   }
-  const handleDeleteCar=async(car)=>
+  const handleDeleteCar=async(e,car)=>
   {
-        // e.preventDefault();
+        e.preventDefault();
         try{
+          // console.log(car._id);
             const response = await axios.post("http://localhost:5000/delete-car",car);
-            localStorage.setItem('defaultCarDetails',JSON.stringify(reponse.data));
+            localStorage.setItem('defaultCarDetails',JSON.stringify(response.data));
             toast.success("Deleted succcessfully");
+            navigate('/adminhome');
         }
         catch(error)
         {
@@ -103,8 +108,8 @@ const CarList = () => {
                 {/* button section begins */}
                 <div className="flex  justify-evenly">
                   <div className="flex justify-center items-center">
-                    <button
-                      onClick={()=>handleUpdate(car)} 
+                    <button type="submit"
+                      onClick={(e)=>handleUpdate(e,car)} 
                       className="rounded-md px-8 py-2 bg-yellow-200/100 flex items-center"
                     >
                       <EditIcon />
@@ -113,7 +118,7 @@ const CarList = () => {
                   </div>
 
                   <div className="flex justify-center items-center">
-                    <button className="rounded-md px-8 py-2 bg-red-300/100 flex items-center" onClick={()=>handleDeleteCar(car)}>
+                    <button type="submit" className="rounded-md px-8 py-2 bg-red-300/100 flex items-center" onClick={(e)=>handleDeleteCar(e,car)}>
                       <DeleteOutlineIcon />
                       Delete
                     </button>
