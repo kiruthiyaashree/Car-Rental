@@ -159,7 +159,6 @@ const RentingSchema=new mongoose.Schema({
     persons:String,
     kms:String,
     pay:String,
-    days:String,
     daysRenting:String,
     carsCount:String,
     checkInDate:String,
@@ -277,7 +276,7 @@ app.post("/update-car",async(req,res)=>
         // console.log(req.body);
         const {name,image,cartype,review,seat,year,fuel,doors,persons,kms,pay} = req.body;
         const carId = req.body.id;
-        console.log(carId);
+        // console.log(carId);
         const updatedCar = await CarDetails.findByIdAndUpdate(carId, {name,image,cartype,review,seat,year,fuel,doors,persons,kms,pay }, { new: true });
         if (!updatedCar) {
             return res.json({ message: 'Car not found' });
@@ -285,6 +284,20 @@ app.post("/update-car",async(req,res)=>
         res.json({message:'updated successfully!'})
     }
     catch(error){
+        console.log(error);
+        res.status(500).json({message:'Server error'});
+    }
+})
+
+app.get("/fetch-userDetails",async(req,res)=>
+{
+    try{
+        const userDetails = await RentingDetails.find();
+        // console.log(userDetails);
+        res.json(userDetails); 
+    }
+    catch(error)
+    {
         console.log(error);
         res.status(500).json({message:'Server error'});
     }
