@@ -49,13 +49,13 @@ const Userdetails=()=>
 
             <div className="flex justify-center">
                 
-            <div className="border border-black rounded-xl bg-blue-800/10 w-[75rem] p-10">
+            <div className="flex flex-col gap-y-10">
             {
                 userdetails.map((user,index)=>
                 {
                     return (
-                        <div key={index} className="flex items-center justify-evenly">
-                            <img alt="reloading" src={user.image}/>
+                        <div key={index} className="flex items-center justify-evenly border border-black rounded-xl bg-blue-800/10 w-[75rem] p-10">
+                            <img alt="reloading" className="w-[25%]" src={user.image}/>
                             <div className="flex flex-col">
                             <p className="font-bold text-center text-xl underline">username :{user.username}</p>
                             <br/>
