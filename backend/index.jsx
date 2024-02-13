@@ -245,6 +245,7 @@ app.post("/admin-signin",async(req,res)=>
         {
             return res.json({message:'Admin not found'});
         }
+        // console.log(admin.password);
         const passwordMatch=await bcrypt.compare(password_verify,admin.password);
         if(!passwordMatch)
         {
