@@ -110,20 +110,33 @@ const Renting = () => {
 
 
                     <div className="grid grid-cols-2 gap-5">
+                        <label htmlFor="noOfDaysRenting"  className="flex flex-col">Days Renting:
                     <input required type="number" id="noOfDaysRenting" name="noOfDaysRenting" placeholder="1 Day('s) Renting" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'daysRenting')} value={rentedCar.daysRenting} />
+                    </label>
+
+                    <label htmlFor="noOfDaysCarsRenting"  className="flex flex-col">Cars:
                     <input required type="number" id="noOfDaysCarsRenting" name="noOfCarsRenting" placeholder="1 Car('s)" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'carsCount')} value={rentedCar.carsCount} />
+                    </label>
 
-
+                    <label htmlFor="checkInDate"   className="flex flex-col">Check-In-Date:
                     <input required type="date" id="checkInDate" name="checkInDate" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkInDate')} value={rentedCar.checkInDate} />
+                    </label>
+
+                    <label htmlFor="checkOutDate"  className="flex flex-col">Check-Out-Date:
                     <input required type="date" id="checkOutDate" name="checkOutDate" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkOutDate')} value={rentedCar.checkOutDate} />
+                    </label>
 
+                    <label htmlFor="checkInTime"  className="flex flex-col">Check-In-Time:
                     <input required type="time" id="checkInTime" name="checkInTime" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkInTime')} value={rentedCar.checkInTime} />
-                    <input required type="time" id="checkOutTime" name="checkOutTime" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkOutTime')} value={rentedCar.checkOutTime} />
+                    </label>
 
+                    <label htmlFor="checkOutTime"  className="flex flex-col">Check-Out-Time:
+                    <input required type="time" id="checkOutTime" name="checkOutTime" className="border border-black rounded-md p-2" onChange={(e) => handleChange(e, 'checkOutTime')} value={rentedCar.checkOutTime} />
+                    </label>
                     </div>
                     <br/>
                     <div className="flex flex-col justify-center items-center">
-                        <p className="font-semibold">total : ${rentedCar.total}</p>
+                        <p className="font-semibold">Total : ${rentedCar.total}</p>
                         <br/>
                     <button className="text-center border border-black rounded-xl px-12 py-2 hover:bg-blue-800 hover:text-white" onClick={handleRentCar}>Rent</button>
                     </div>
