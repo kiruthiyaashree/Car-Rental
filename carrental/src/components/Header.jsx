@@ -6,7 +6,13 @@ const Header=()=>
     const navigate=useNavigate();
     const handleRent=()=>
     {
-        navigate("/filters");
+        const username=localStorage.getItem('userName');
+        if(username){
+            navigate("/filters");
+        }
+        else{
+            navigate("/signin");
+        }
     }
     return (
         <>
