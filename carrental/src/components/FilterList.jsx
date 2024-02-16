@@ -30,7 +30,7 @@ const FilterList = () => {
         };
         
         window.addEventListener('storage', handleStorageChange);
-    
+        handleStorageChange();
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
