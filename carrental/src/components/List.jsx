@@ -14,8 +14,6 @@ const List=()=>
         const fetchCarDetails = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/car-details');
-                // console.log("details",response.data);
-                // localStorage.setItem('defaultCarDetails',JSON.stringify(response.data));
                 setCarDetails(response.data);
             } catch (error) {
                 console.error('Error fetching car details:', error);
@@ -33,7 +31,6 @@ const List=()=>
             navigate("/signin");
         }
         else{
-            // localStorage.setItem('selectedCar',JSON.stringify(car));
             navigate("/renting");
         }
     }
