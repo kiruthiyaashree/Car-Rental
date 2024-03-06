@@ -10,6 +10,8 @@ const Userdetails=()=>
 {
     const navigate=useNavigate();
     const [userdetails,setUserDetails] = useState([]);
+    const [searchfilter,setSearchFilter] = useState("");
+    // console.log(userdetails.filter(user=>user.username.includes(searchfilter)));
     useEffect(()=>
     {
         const handleFetchUserDetails=async()=>
@@ -47,11 +49,22 @@ const Userdetails=()=>
         <br/>
         <br/>
 
-            <div className="flex justify-center">
-                
+            <div className="flex flex-col items-center">
+              <div>
+                <input type="text" className="border border-black rounded-xl px-8 py-2" placeholder="search" onChange={(e) => setSearchFilter(e.target.value)}/>
+                </div>  
+                <br/>
+                <br/>
+                <br/>
+
             <div className="flex flex-col gap-y-10">
             {
-                userdetails.map((user,index)=>
+                userdetails.filter(user =>
+                    Object.values(user).some(value =>
+                        typeof value === 'string' && value.toLowerCase().includes(searchfilter.toLowerCase())
+                    )
+                ).map((user,index)=>
+                // userdetails.filter(user=>user.username.toLowerCase().includes(searchfilter)).map((user,index)=>
                 {
                     return (
                         <div key={index} className="flex items-center justify-evenly border border-black rounded-xl bg-blue-800/10 w-[75rem] p-10">
