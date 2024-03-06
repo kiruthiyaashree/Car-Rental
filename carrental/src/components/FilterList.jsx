@@ -17,8 +17,6 @@ const FilterList = () => {
                 // console.log(car_details.data);
                 const d =car_details.data;
                 const f_values = JSON.parse(localStorage.getItem('FilteredValues'));
-                // console.log(f_values);
-    
                 if (f_values && f_values.responseResults && f_values.responseResults.length > 0) {
                     setCarDetails(f_values.responseResults);
                 } else {
