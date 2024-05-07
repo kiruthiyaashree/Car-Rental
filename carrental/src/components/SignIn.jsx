@@ -3,13 +3,18 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Cookies from 'universal-cookie'; // Import the cookie library
+
 const SignIn = () => {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
+    const cookies = new Cookies(); // Initialize cookies
+
     const [signinFormData, setSigninFormData] = useState({
         email_verify: '',
         password_verify: '',
     });
-    const [isShowPassword,setIsShowPassword]=useState(false);
+    const [isShowPassword, setIsShowPassword] = useState(false);
+
     const handleChangeSignIn = (e) => {
         const { name, value } = e.target;
         setSigninFormData({ ...signinFormData, [name]: value });
@@ -20,13 +25,12 @@ const SignIn = () => {
         try {
             const response = await axios.post("http://localhost:5000/signin", signinFormData);
             // console.log(response.data);
-            if(response.data.message=="Email not found!" || response.data.message == "wrong credentials")
-            {
+            if (response.data.message === "Email not found!" || response.data.message === "wrong credentials") {
                 toast.error(response.data.message);
-            }
-            else{
+            } else {
                 toast.success(response.data.message);
-                const username=response.data.message.split(" ")[0];
+                const username = response.data.message.split(" ")[0];
+                cookies.set('userName', username, { path: '/', expires: new Date(Date.now() + 86400000) }); // Expire in one day (86400000 milliseconds)
                 localStorage.setItem('userName',JSON.stringify(username));
                 const value=localStorage.getItem('Adminname');
                 if(value)
@@ -40,10 +44,11 @@ const SignIn = () => {
                 password_verify: '',
             });
         } catch (error) {
-                console.log(error);
-                toast.error("Error occurred during signing in!");
+            console.log(error);
+            toast.error("Error occurred during signing in!");
         }
     };
+
     return (
         <div className="">
             <form className="flex justify-center items-center min-h-[100vh]" onSubmit={handleSubmitSignIn}>
@@ -53,8 +58,8 @@ const SignIn = () => {
                     <br />
                     <input type={isShowPassword ? 'text' : 'password'} className="border border-black p-3 rounded-md my-3" placeholder="Password" id="password_verify" name="password_verify" value={signinFormData.password_verify} onChange={handleChangeSignIn} />
                     <br />
-                    <input type="checkbox" className="" placeholder="" id="" name="" onChange={()=>setIsShowPassword(!isShowPassword)}/>Show Password
-                    <br/>
+                    <input type="checkbox" className="" placeholder="" id="" name="" onChange={() => setIsShowPassword(!isShowPassword)} />Show Password
+                    <br />
                     <div className="flex justify-center my-3">
                         <button type="submit" className="px-8 py-2 border border-black rounded-xl bg-blue-800 text-white hover:border-b-2 hover:border-r-2">Signin</button>
                     </div>
