@@ -17,7 +17,7 @@ const Userdetails=()=>
         const handleFetchUserDetails=async()=>
         {
             try{
-                const response = await axios.get("http://localhost:5000/fetch-userDetails");
+                const response = await axios.get("https://car-rental-website-oy1l.onrender.com/fetch-userDetails");
                 setUserDetails(response.data);
                 // console.log(response.data);
             }

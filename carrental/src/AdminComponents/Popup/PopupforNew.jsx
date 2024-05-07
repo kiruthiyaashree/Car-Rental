@@ -30,7 +30,7 @@ const PopupForNew=({closePop})=>
     const handleSubmit=async(e)=>
     {
         try{
-            const response = await axios.post("http://localhost:5000/add-cars",AddNewCar);
+            const response = await axios.post("https://car-rental-website-oy1l.onrender.com/add-cars",AddNewCar);
             // console.log(response.data);
             navigate('/adminhome');
         }

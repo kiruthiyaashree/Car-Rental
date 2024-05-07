@@ -71,7 +71,7 @@ const Renting = () => {
             pay:carDetails.pay,
         };
         // console.log(dataTosend);
-        await axios.post('http://localhost:5000/rent',dataTosend);
+        await axios.post('https://car-rental-website-oy1l.onrender.com/rent',dataTosend);
         toast.success("rented successfully");
         navigate("/profile");
     }

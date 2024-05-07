@@ -20,7 +20,7 @@ const Search = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const responseSearchData = await axios.post("http://localhost:5000/search",formData);
+            const responseSearchData = await axios.post("https://car-rental-website-oy1l.onrender.com/search",formData);
             if (responseSearchData) {
                 localStorage.setItem('FilteredValues', JSON.stringify(responseSearchData.data));
                 // Trigger a re-render of FilterList component (if it's rendered)

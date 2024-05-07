@@ -45,7 +45,7 @@ const SignUp=()=>
             if(signup_form_data.password === signup_form_data.confirm_password){
                 if(validatePassword(signup_form_data.password)){
                     try {
-                        const response=await axios.post("http://localhost:5000/signup", signup_form_data);
+                        const response=await axios.post("https://car-rental-website-oy1l.onrender.com/signup", signup_form_data);
                         if(response.data.message == 'Username already exists')
                         {
                             toast.warning(response.data.message);

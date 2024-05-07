@@ -13,7 +13,7 @@ const FilterList = () => {
         setUserName(username);
         const handleStorageChange = async() => {
             try {
-                const car_details = await axios.get("http://localhost:5000/car-details");
+                const car_details = await axios.get("https://car-rental-website-oy1l.onrender.com/car-details");
                 // console.log(car_details.data);
                 const d =car_details.data;
                 const f_values = JSON.parse(localStorage.getItem('FilteredValues'));

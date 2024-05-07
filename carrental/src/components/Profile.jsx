@@ -21,7 +21,7 @@ const Profile =()=>
         setUserName(username);
         const fetchRentedCarDetails=async()=>{
             try{
-                const response = await axios.post("http://localhost:5000/rentedCarDetails",{username});
+                const response = await axios.post("https://car-rental-website-oy1l.onrender.com/rentedCarDetails",{username});
                 setRentedCarInfos(response.data);
                 // console.log(rentedCarInfos.responseRentedCarDetails);
             }
@@ -37,7 +37,7 @@ const Profile =()=>
     {
         try{
             // console.log(car.carId);
-            await axios.post("http://localhost:5000/cancelingCar",{car});
+            await axios.post("https://car-rental-website-oy1l.onrender.com/cancelingCar",{car});
             fetchRentedCarDetails();
         }
         catch(error)

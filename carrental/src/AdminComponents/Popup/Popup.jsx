@@ -29,7 +29,7 @@ export const Popup = ({ closePopup, car }) => {
     e.preventDefault();
     // sends details to the index.jsx file to be updated
     try{
-      await axios.post("http://localhost:5000/update-car",formData);
+      await axios.post("https://car-rental-website-oy1l.onrender.com/update-car",formData);
       toast.success("Updated successfully");
     }
     catch(error){

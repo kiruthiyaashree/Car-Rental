@@ -16,7 +16,7 @@ const CarList = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const handleFetchCarDetails = async () => {
-      const response = await axios.get("http://localhost:5000/car-details");
+      const response = await axios.get("https://car-rental-website-oy1l.onrender.com/car-details");
       setCarDetails(response.data);
     };
     handleFetchCarDetails();
@@ -43,7 +43,7 @@ const CarList = () => {
         e.preventDefault();
         try{
           // console.log(car._id);
-            const response = await axios.post("http://localhost:5000/delete-car",car);
+            const response = await axios.post("https://car-rental-website-oy1l.onrender.com/delete-car",car);
             // localStorage.setItem('defaultCarDetails',JSON.stringify(response.data));
             toast.success("Deleted succcessfully");
             navigate('/adminhome');

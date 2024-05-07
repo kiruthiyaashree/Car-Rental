@@ -13,7 +13,7 @@ const List=()=>
     useEffect(() => {
         const fetchCarDetails = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/car-details');
+                const response = await axios.get('https://car-rental-website-oy1l.onrender.com/car-details');
                 setCarDetails(response.data);
             } catch (error) {
                 console.error('Error fetching car details:', error);
