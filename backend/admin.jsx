@@ -6,14 +6,12 @@ require('dotenv').config();
 
 const url = process.env.mongodb_url;
 
-// Connect to the default database
 mongoose.connect(url).then(() => {
     console.log("mongoose connected");
 }).catch((err) => {
     console.error("MongoDB connection error:", err);
 });
 
-// Define a separate connection for the administration database
 const adminDBUrl = process.env.administration_mongodb_url;
 const adminDBConnection = mongoose.createConnection(adminDBUrl);
 
@@ -28,10 +26,8 @@ const adminSchema = new mongoose.Schema({
     }
 });
 
-// Define admin model using the adminDBConnection
 const AdminModel = adminDBConnection.model('Admin', adminSchema);
 
-// Hash the password using bcrypt
 const p = "";
 bcrypt.hash(p, 10, (err, hashedPassword) => {
     if (err) {
@@ -39,7 +35,6 @@ bcrypt.hash(p, 10, (err, hashedPassword) => {
         return;
     }
 
-    // Create an instance of the admin with the hashed password
     const adminData = new AdminModel({
         "username": "adminAtCarrental",
         "email": "administrator@carrental.in",
